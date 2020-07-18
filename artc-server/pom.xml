@@ -6,11 +6,20 @@
 
     <groupId>org.artc</groupId>
     <artifactId>artc-server</artifactId>
+    <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>artc-security</module>
+        <module>artc-commom</module>
+        <module>artc-web</module>
+    </modules>
 
     <properties>
         <java.version>1.8</java.version>
         <spring.version>2.3.1.RELEASE</spring.version>
+        <shiro.version>1.5.3</shiro.version>
+        <jwt.version>3.10.3</jwt.version>
+        <apache.lang.version>3.10</apache.lang.version>
     </properties>
 
     <dependencies>
@@ -42,6 +51,22 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-spring</artifactId>
+            <version>${shiro.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.auth0</groupId>
+            <artifactId>java-jwt</artifactId>
+            <version>${jwt.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${apache.lang.version}</version>
+        </dependency>
+
     </dependencies>
 
     <build>
