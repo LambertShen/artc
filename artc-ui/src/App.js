@@ -2,13 +2,6 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-function test() {
-  let userInfo = {id: '', name: ''}
-  JSON.parse()
-  localStorage.setItem("boli", userInfo)
-  localStorage["boli"] = userInfo;
-}
-
 function App() {
   return (
     <div className="App">
