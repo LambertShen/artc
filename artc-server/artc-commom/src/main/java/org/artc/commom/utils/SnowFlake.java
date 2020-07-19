@@ -1,8 +1,11 @@
 package org.artc.commom.utils;
 
+import org.springframework.stereotype.Component;
+
 /**
  * twitter的snowflake算法
  */
+@Component
 public class SnowFlake {
 
     /**

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.artc.security.mapper.UserMapper">
+    <select id="findUserByLoginName" resultType="org.artc.security.entity.User" parameterType="java.lang.String">
+        SELECT
+            id,
+            family_name,
+            given_name,
+            nick_name,
+            sex,
+            id_card,
+            head_img_url,
+            email,
+            mobile,
+            login_name,
+            salt,
+            password,
+            state
+        FROM
+            sys_user
+        WHERE
+            login_name = #{loginName}
+        AND
+            deleted = 0
+    </select>
+
+    <insert id="insert" parameterType="org.artc.security.entity.User">
+        INSERT INTO sys_user
+            (
+                id,
+                family_name,
+                given_name,
+                nick_name,
+                sex,
+                id_card,
+                head_img_url,
+                email,
+                mobile,
+                login_name,
+                salt,
+                password,
+                created,
+                creator
+            )
+        VALUES
+            (
+                #{id},
+                #{familyName},
+                #{giveName},
+                #{nickName},
+                #{sex},
+                #{idCard},
+                #{headImgUrl},
+                #{email},
+                #{mobile},
+                #{loginName},
+                #{salt},
+                #{password},
+                #{created},
+                #{creator}
+            )
+    </insert>
+</mapper>

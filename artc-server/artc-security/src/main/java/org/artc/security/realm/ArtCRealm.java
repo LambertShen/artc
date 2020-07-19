@@ -15,9 +15,10 @@ import org.artc.security.entity.Role;
 import org.artc.security.entity.User;
 import org.artc.security.jwt.JwtToken;
 import org.artc.security.jwt.JwtUtil;
+import org.artc.security.service.PermissionService;
+import org.artc.security.service.RoleService;
 import org.artc.security.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -26,6 +27,12 @@ public class ArtCRealm extends AuthorizingRealm {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private RoleService roleService;
+
+    @Autowired
+    private PermissionService permissionService;
 
     @Override
     public boolean supports(AuthenticationToken token) {
@@ -40,13 +47,13 @@ public class ArtCRealm extends AuthorizingRealm {
             return null;
         }
         User user = userService.findUserByLoginName(userPrincipal.getLoginName());
-        Set<Role> roles = user.getRoles();
-        Set<String> roleStrings = roles.stream().map(Role::getCode).collect(Collectors.toSet());
-        info.addRoles(roleStrings);
-        for (Role role : roles) {
-            Set<Permission> permissions = role.getPermissions();
-            Set<String> permissionStrings = permissions.stream().map(Permission::getCode).collect(Collectors.toSet());
-            info.addStringPermissions(permissionStrings);
+        Set<Role> roles = roleService.findRoleSetByUserId(user.getId());
+        Set<String> roleCodes = roles.stream().map(Role::getCode).collect(Collectors.toSet());
+        info.setRoles(roleCodes);
+        for(Role role : roles) {
+            Set<Permission> permissions = permissionService.findPermissionSetByRoleId(role.getId());
+            Set<String> permissionCodes = permissions.stream().map(Permission::getCode).collect(Collectors.toSet());
+            info.setStringPermissions(permissionCodes);
         }
         return info;
     }

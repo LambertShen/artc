@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.artc.security.mapper.RoleMapper">
+    <select id="findRoleSetByUserId" resultType="org.artc.security.entity.Role" parameterType="java.lang.String">
+        SELECT
+            id,
+            code,
+            name,
+            created,
+            edited,
+            creator,
+            editor
+        FROM
+            sys_role AS role
+        LEFT JOIN
+            sys_user_role AS user_role
+        ON
+            role.id = user_role.role_id
+        WHERE
+            user_role.user_id = #{userId}
+        AND
+            role.deleted = 0
+    </select>
+</mapper>

@@ -24,7 +24,6 @@ public class ShiroConfig {
 
     @Bean
     public ArtCRealm artCRealm(HashedCredentialsMatcher matcher) {
-        System.out.println("hello");
         ArtCRealm realm = new ArtCRealm();
         realm.setCredentialsMatcher(matcher);
         return realm;

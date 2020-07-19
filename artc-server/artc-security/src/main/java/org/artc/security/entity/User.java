@@ -7,7 +7,7 @@ import java.util.Set;
 public class User extends BaseEntity {
 
     private String familyName;
-    private String giveName;
+    private String givenName;
     private String nickName;
     private Integer sex;
     private String idCard;
@@ -29,11 +29,11 @@ public class User extends BaseEntity {
     }
 
     public String getGiveName() {
-        return giveName;
+        return givenName;
     }
 
     public void setGiveName(String giveName) {
-        this.giveName = giveName;
+        this.givenName = giveName;
     }
 
     public String getNickName() {
