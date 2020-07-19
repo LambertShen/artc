@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.artc.security.mapper.UserMapper">
+
+    <resultMap id="detailedUserResultMap" type="org.artc.security.entity.User">
+        <id property="id" column="user_id"/>
+        <result property="familyName" column="user_family_name"/>
+        <result property="giveName" column="user_given_name"/>
+        <result property="nickName" column="user_nick_name"/>
+        <result property="sex" column="user_sex"/>
+        <result property="idCard" column="user_id_card"/>
+        <result property="headImgUrl" column="user_head_img_url"/>
+        <result property="email" column="user_email"/>
+        <result property="mobile" column="user_mobile"/>
+        <result property="loginName" column="user_login_name"/>
+        <result property="salt" column="user_salt"/>
+        <result property="state" column="user_password"/>
+        <result property="loginName" column="user_state"/>
+        <collection property="roles" ofType="org.artc.security.entity.Role">
+            <id property="id" column="role_id"/>
+            <result property="code" column="role_code"/>
+            <result property="name" column="role_name"/>
+            <collection property="permissions" ofType="org.artc.security.entity.Permission">
+                <id property="id" column="permission_id"/>
+                <result property="code" column="permission_code"/>
+                <result property="name" column="permission_name"/>
+            </collection>
+        </collection>
+    </resultMap>
+
+    <select id="findUserByLoginName" resultMap="detailedUserResultMap" parameterType="java.lang.String">
+        SELECT
+            user.id AS user_id,
+            user.family_name AS user_family_name,
+            user.given_name AS user_given_name,
+            user.nick_name AS user_nick_name,
+            user.sex AS user_sex,
+            user.id_card AS user_id_card,
+            user.head_img_url AS user_head_img_url,
+            user.email AS user_email,
+            user.mobile AS user_mobile,
+            user.login_name AS user_login_name,
+            user.salt AS user_salt,
+            user.password AS user_password,
+            user.state AS user_state,
+            role.id AS role_id,
+            role.code AS role_code,
+            role.name AS role_name,
+            permission.id AS permission_id,
+            permission.code AS permission_code,
+            permission.name AS permission_name
+        FROM
+            sys_user AS user
+        LEFT JOIN
+            sys_user_role AS user_role
+        ON
+            user.id = user_role.user_id
+        LEFT JOIN
+            sys_role AS role
+        ON
+            user_role.role_id = role.id
+        LEFT JOIN
+            sys_role_permission AS role_permission
+        ON
+            role.id = role_permission.role_id
+        LEFT JOIN
+            sys_permission AS permission
+        ON
+            role_permission.permission_id = permission.id
+        WHERE
+            user.login_name = #{loginName}
+        AND
+            user.deleted = 0
+        AND
+            role.deleted = 0
+        AND
+            permission.deleted = 0
+    </select>
+
+    <insert id="insert" parameterType="org.artc.security.entity.User">
+        INSERT INTO sys_user
+            (
+                id,
+                family_name,
+                given_name,
+                nick_name,
+                sex,
+                id_card,
+                head_img_url,
+                email,
+                mobile,
+                login_name,
+                salt,
+                password,
+                created,
+                creator
+            )
+        VALUES
+            (
+                #{id},
+                #{familyName},
+                #{giveName},
+                #{nickName},
+                #{sex},
+                #{idCard},
+                #{headImgUrl},
+                #{email},
+                #{mobile},
+                #{loginName},
+                #{salt},
+                #{password},
+                #{created},
+                #{creator}
+            )
+    </insert>
+</mapper>
