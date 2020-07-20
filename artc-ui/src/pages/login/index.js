@@ -1,52 +1,47 @@
 import React from 'react';
-import './index.css';
-import {UserOutlined, KeyOutlined} from '@ant-design/icons'
-import {Button} from "antd";
+import './index.less';
 import {login} from './action'
 import {connect} from 'react-redux'
 import axios from "axios";
 
-class Login extends React.Component {
+const Login = (props) => {
 
-    constructor(props) {
-        super(props);
-        this.username = React.createRef();
-        this.password = React.createRef();
+    let username, password;
+
+    const submit = () => {
+        const {login} = props;
+        login(username.value, password.value);
     }
 
-    submit() {
-        const {username, password} = this;
-        const {login} = this.props;
-        login(username.current.value, password.current.value);
-    }
-
-    render() {
-        console.log(this.props)
-        return (
-            <div className="login-background">
-                <div className="login-box">
-                    <h1>登录</h1>
-                    <div className="form">
-                        <div className="item">
-                            <UserOutlined className="icon"/>
-                            <input type="text"
-                                   ref={this.username}
-                                   placeholder="用户名"
-                            />
+    return (
+        <div className="container">
+            <div className="form-container">
+                <div className="form-body">
+                    <div className="header">
+                        <h1>登录</h1>
+                    </div>
+                    <div className="form-group">
+                        <div className="input-group">
+                            <input type="text" placeholder="用户名" ref={input => username = input}/>
                         </div>
-                        <div className="item">
-                            <KeyOutlined className="icon"/>
-                            <input type="password"
-                                   ref={this.password}
-                                   placeholder="密码"
-                            />
+                        <div className="input-group">
+                            <input type="password" placeholder="密码" ref={input => password = input}/>
+                        </div>
+                        <div className="input-group right">
+                            <button onClick={() => submit()}>登录</button>
                         </div>
                     </div>
-                    <Button type="primary" onClick={() => this.submit()}>登录</Button>
+                </div>
+                <div className="form-image">
+                    <div className="text">
+                        <h1>Art Code</h1>
+                        <h2>欢迎使用！</h2>
+                        <p>致力于研发自动化办公解决方案，感谢您的使用，您的支持都是我们研发的动力！</p>
+                    </div>
                 </div>
             </div>
-        )
-    }
+        </div>
+    )
 
 }
 
@@ -73,6 +68,8 @@ function loginDispatch(username, password, dispatch) {
         dispatch(
             login(response)
         )
+    }).catch(error => {
+        localStorage.removeItem("token");
     })
 }
 
