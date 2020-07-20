@@ -23,7 +23,7 @@
 /artc-server/.mvn
 /artc-ui/.idea
 /artc-ui/node_modules
-/target
+/artc-server/*/target
 *.iml
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
