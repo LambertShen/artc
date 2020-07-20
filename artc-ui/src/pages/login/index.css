@@ -1,0 +1,54 @@
+.login-background {
+    background-image: url("../../asset/image/login_background.jpg");
+    background-repeat: no-repeat;
+    background-size: 100%;
+    width: 100%;
+    min-width: 768px;
+    height: 100%;
+    position: absolute;
+}
+
+.login-box {
+    position: absolute;
+    left: 20%;
+    top: 50%;
+    margin: -5% 0 0 15%;
+    width: 30%;
+    text-align: center;
+    background-color: #ffffff30;
+}
+
+.login-box h1 {
+    color: #fff;
+}
+
+.login-box .form .item {
+    margin-top: 15px;
+}
+
+.login-box .form .item .icon {
+    font-size: 18px;
+    margin-right: 15px;
+}
+
+.login-box .form .item input {
+    width: 50%;
+    font-size: 18px;
+    border: 0;
+    border-bottom: 2px solid #fff;
+    padding: 5px 5px;
+    background-color: #ffffff00;
+    color: #fff;
+}
+
+.login-box .form .item input:focus {
+    outline: none;
+}
+
+.login-box button {
+    margin-top: 25px;
+    margin-left: 34px;
+    margin-bottom: 25px;
+    width: 45%;
+    height: 30px;
+}
