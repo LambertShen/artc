@@ -24,7 +24,7 @@ public class JwtUtil {
 
     public static String getLoginName(String token) {
         DecodedJWT jwt = JWT.decode(token);
-        return jwt.getClaim("username").toString();
+        return jwt.getClaim("username").asString();
     }
 
     public static String sign(String username, String password) {

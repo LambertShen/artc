@@ -40,13 +40,13 @@ public class ShiroConfig {
         return manager;
     }
 
-    @Bean
+    @Bean("shiroFilter")
     public ShiroFilterFactoryBean shiroFilter(SecurityManager securityManager) {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager);
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
-        filterChainDefinitionMap.put("/security/login", "anon");
-        filterChainDefinitionMap.put("/security/logout", "logout");
+        filterChainDefinitionMap.put("/login", "anon");
+        filterChainDefinitionMap.put("/logout", "logout");
         filterChainDefinitionMap.put("/**", "authc");
         LinkedHashMap<String, Filter> filterMap = new LinkedHashMap<>();
         filterMap.put("jwt", jwtFilter());

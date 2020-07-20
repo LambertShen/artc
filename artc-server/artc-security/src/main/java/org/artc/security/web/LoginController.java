@@ -9,6 +9,8 @@ import org.artc.security.jwt.JwtUtil;
 import org.artc.security.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -18,7 +20,7 @@ public class LoginController {
     private UserService userService;
 
     @PostMapping(value = "login")
-    public Result login(User loginUser) {
+    public Result login(@RequestBody User loginUser) {
         User user = userService.findUserByLoginName(loginUser.getLoginName());
         if (user == null) {
             return new Result(ResultCode.USER_NOT_EXIST);
