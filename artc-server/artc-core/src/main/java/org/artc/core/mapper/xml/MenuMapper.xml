@@ -93,7 +93,7 @@
         <set>
             <if test="name != null">name,=#{name},</if>
             <if test="url != null">url,=#{url},</if>
-            <if test="parent_id != null">parent_id,=#{parentId},</if>
+            <if test="parentId != null">parent_id,=#{parentId},</if>
             <if test="sort != null">sort,=#{sort},</if>
             <if test="edited != null">edited=#{edited}</if>
             <if test="editor != null">editor=#{editor}</if>
