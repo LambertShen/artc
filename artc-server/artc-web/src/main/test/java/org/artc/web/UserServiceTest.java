@@ -21,7 +21,7 @@ public class UserServiceTest {
         user.setLoginName("admin");
         user.setEmail("2357111357@outlook.com");
         user.setFamilyName("Shen");
-        user.setGiveName("Lambert");
+        user.setGivenName("Lambert");
         user.setSex(0);
         user.setHeadImgUrl("");
         user.setIdCard("232700199809166317");

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.artc.core.mapper.MenuMapper">
+
+    <sql id="menuColumns">
+            id,
+            name,
+            url,
+            parent_id,
+            sort,
+            created,
+            edited,
+            creator,
+            editor
+    </sql>
+
+    <select id="findMenusByUserId" resultType="org.artc.core.entity.Menu" parameterType="org.artc.core.entity.User">
+        SELECT
+            menu.id AS id,
+            menu.name AS name,
+            menu.url AS url,
+            menu.parent_id AS parentId,
+            menu.sort AS sort
+        FROM
+            sys_menu AS menu
+        LEFT JOIN
+            sys_role_menu AS role_menu
+        ON
+            menu.id = role_menu.menu_id
+        LEFT JOIN
+            sys_role AS role
+        ON
+            role_menu.role_id = role.id
+        LEFT JOIN
+            sys_user_role AS user_role
+        ON
+            role.id = user_role.role_id
+        LEFT JOIN
+            sys_user AS user
+        ON
+            user_role.user_id = user.id
+        WHERE
+            user.id = #{id}
+        AND
+            menu.deleted = 0
+    </select>
+
+    <select id="findAll" resultType="org.artc.core.entity.Menu">
+        SELECT
+            <include refid="menuColumns"/>
+        FROM
+            sys_menu
+        WHERE
+            deleted = 0
+    </select>
+
+    <select id="findById" resultType="org.artc.core.entity.Menu">
+        SELECT
+            <include refid="menuColumns"/>
+        FROM
+            sys_menu
+        WHERE
+            id = #{id}
+    </select>
+
+    <insert id="insert">
+        INSERT INTO sys_menu
+        (
+            id,
+            name,
+            url,
+            parent_id,
+            sort,
+            created,
+            creator
+        )
+        VALUES
+        (
+            #{id},
+            #{name},
+            #{url},
+            #{parentId},
+            #{sort},
+            #{created},
+            #{creator}
+        )
+    </insert>
+
+    <update id="update">
+        UPDATE sys_menu
+        <set>
+            <if test="name != null">name,=#{name},</if>
+            <if test="url != null">url,=#{url},</if>
+            <if test="parent_id != null">parent_id,=#{parentId},</if>
+            <if test="sort != null">sort,=#{sort},</if>
+            <if test="edited != null">edited=#{edited}</if>
+            <if test="editor != null">editor=#{editor}</if>
+        </set>
+        WHERE
+        id = #{id}
+    </update>
+
+    <update id="delete">
+        UPDATE
+            sys_menu
+        SET
+            deleted = 1
+        WHERE
+            id = #{id}
+    </update>
+</mapper>

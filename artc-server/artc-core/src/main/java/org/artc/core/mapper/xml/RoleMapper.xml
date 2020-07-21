@@ -3,8 +3,8 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.artc.core.mapper.RoleMapper">
-    <select id="findRoleSetByUserId" resultType="org.artc.core.entity.Role" parameterType="java.lang.String">
-        SELECT
+
+    <sql id="roleColumns">
             id,
             code,
             name,
@@ -12,6 +12,11 @@
             edited,
             creator,
             editor
+    </sql>
+
+    <select id="findRoleSetByUserId" resultType="org.artc.core.entity.Role">
+        SELECT
+            <include refid="roleColumns"/>
         FROM
             sys_role AS role
         LEFT JOIN
@@ -23,4 +28,75 @@
         AND
             role.deleted = 0
     </select>
+
+    <select id="findById" resultType="org.artc.core.entity.Role">
+        SELECT
+            <include refid="roleColumns"/>
+        FROM
+            sys_role
+        WHERE
+            id = #{id}
+        AND
+            deleted = 0
+    </select>
+
+    <select id="findAll" resultType="org.artc.core.entity.Role">
+        SELECT
+            <include refid="roleColumns"/>
+        FROM
+            sys_role
+        WHERE
+            deleted = 0
+    </select>
+
+    <insert id="insert">
+        INSERT INTO sys_role
+            (
+                id,
+                code,
+                name,
+                created,
+                creator
+            )
+        VALUES
+            (
+                #{id},
+                #{code},
+                #{name},
+                #{created},
+                #{creator}
+            )
+    </insert>
+
+    <update id="update">
+        UPDATE sys_role
+        <set>
+            <if test="code != null">code=#{code},</if>
+            <if test="name != null">name,=#{name},</if>
+            <if test="edited != null">edited=#{edited}</if>
+            <if test="editor != null">editor=#{editor}</if>
+        </set>
+        WHERE
+            id = #{id}
+    </update>
+
+    <update id="delete">
+        UPDATE
+            sys_role
+        SET
+            deleted = 1
+        WHERE
+            id = #{id}
+    </update>
+
+    <delete id="unbindPermission">
+        DELETE FROM sys_role_permission WHERE role_id = #{id}
+    </delete>
+
+    <insert id="bindPermission">
+        INSERT INTO sys_role_permission (role_id, permission_id)
+        <foreach collection="permissions" item="permission" separator="union all">
+            SELECT #{id}, #{permission.id}
+        </foreach>
+    </insert>
 </mapper>

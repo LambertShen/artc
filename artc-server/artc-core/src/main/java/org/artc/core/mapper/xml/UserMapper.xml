@@ -3,8 +3,8 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.artc.core.mapper.UserMapper">
-    <select id="findUserByLoginName" resultType="org.artc.core.entity.User" parameterType="java.lang.String">
-        SELECT
+
+    <sql id="userColumns">
             id,
             family_name,
             given_name,
@@ -17,7 +17,13 @@
             login_name,
             salt,
             password,
-            state
+            state,
+            admin
+    </sql>
+
+    <select id="findUserByLoginName" resultType="org.artc.core.entity.User">
+        SELECT
+            <include refid="userColumns"/>
         FROM
             sys_user
         WHERE
@@ -26,7 +32,7 @@
             deleted = 0
     </select>
 
-    <insert id="insert" parameterType="org.artc.core.entity.User">
+    <insert id="insert">
         INSERT INTO sys_user
             (
                 id,
@@ -41,6 +47,7 @@
                 login_name,
                 salt,
                 password,
+                admin,
                 created,
                 creator
             )
@@ -48,7 +55,7 @@
             (
                 #{id},
                 #{familyName},
-                #{giveName},
+                #{givenName},
                 #{nickName},
                 #{sex},
                 #{idCard},
@@ -58,8 +65,66 @@
                 #{loginName},
                 #{salt},
                 #{password},
+                #{admin},
                 #{created},
                 #{creator}
             )
+    </insert>
+
+    <select id="findById" resultType="org.artc.core.entity.User">
+        SELECT
+            <include refid="userColumns"/>
+        FROM
+            sys_user
+        WHERE
+            id = #{id}
+        AND
+            deleted = 0
+    </select>
+
+    <select id="findAll">
+        SELECT
+            <include refid="userColumns"/>
+        FROM
+            sys_user
+        WHERE
+            deleted = 0
+    </select>
+
+    <update id="update">
+        UPDATE sys_user
+        <set>
+            <if test="familyName != null">family_name=#{familyName},</if>
+            <if test="givenName != null">given_name,=#{givenName},</if>
+            <if test="nickName != null">nick_name=#{nickName,},</if>
+            <if test="sex != null">sex=#{sex}</if>
+            <if test="idCard != null">id_card=#{idCard}</if>
+            <if test="headImgUrl != null">head_img_url=#{headImgUrl}</if>
+            <if test="email != null">email=#{email}</if>
+            <if test="mobile != null">mobile=#{mobile}</if>
+            <if test="edited != null">edited=#{edited}</if>
+            <if test="editor != null">editor=#{editor}</if>
+        </set>
+        WHERE id=#{id}
+    </update>
+
+    <update id="delete">
+        UPDATE
+            sys_user
+        SET
+            deleted = 1
+        WHERE
+            id = #{id}
+    </update>
+
+    <delete id="unbindRole">
+        DELETE FROM sys_user_role where user_id = #{id}
+    </delete>
+
+    <insert id="bindRole">
+        INSERT INTO sys_user_role (user_id, role_id)
+        <foreach collection="roles" item="role" separator="union all">
+            SELECT #{id}, #{role.id}
+        </foreach>
     </insert>
 </mapper>

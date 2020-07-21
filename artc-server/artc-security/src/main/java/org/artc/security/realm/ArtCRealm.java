@@ -40,6 +40,18 @@ public class ArtCRealm extends AuthorizingRealm {
     }
 
     @Override
+    public boolean isPermitted(PrincipalCollection principals, String permission) {
+        User user = (User) principals.getPrimaryPrincipal();
+        return user.getAdmin() == 1 || super.isPermitted(principals, permission);
+    }
+
+    @Override
+    public boolean hasRole(PrincipalCollection principals, String roleIdentifier) {
+        User user = (User) principals.getPrimaryPrincipal();
+        return user.getAdmin() == 1 || super.hasRole(principals, roleIdentifier);
+    }
+
+    @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         User userPrincipal = (User) principals.getPrimaryPrincipal();

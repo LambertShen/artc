@@ -18,6 +18,7 @@ public class User extends BaseEntity {
     private String salt;
     private String password;
     private Integer state;
+    private Integer admin = 1;
     private Set<Role> roles;
 
     public String getFamilyName() {
@@ -28,11 +29,11 @@ public class User extends BaseEntity {
         this.familyName = familyName;
     }
 
-    public String getGiveName() {
+    public String getGivenName() {
         return givenName;
     }
 
-    public void setGiveName(String giveName) {
+    public void setGivenName(String giveName) {
         this.givenName = giveName;
     }
 
@@ -114,6 +115,14 @@ public class User extends BaseEntity {
 
     public void setState(Integer state) {
         this.state = state;
+    }
+
+    public Integer getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(Integer admin) {
+        this.admin = admin;
     }
 
     public Set<Role> getRoles() {
