@@ -1,9 +1,9 @@
-package org.artc.security.service;
+package org.artc.core.service;
 
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.artc.commom.utils.SnowFlake;
-import org.artc.security.entity.User;
-import org.artc.security.mapper.UserMapper;
+import org.artc.core.entity.User;
+import org.artc.core.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

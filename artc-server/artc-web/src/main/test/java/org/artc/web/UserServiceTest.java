@@ -1,7 +1,7 @@
 package org.artc.web;
 
-import org.artc.security.entity.User;
-import org.artc.security.service.UserService;
+import org.artc.core.entity.User;
+import org.artc.core.service.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

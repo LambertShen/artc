@@ -13,6 +13,6 @@ spring:
     username: root
     password: 963963963Zz
 mybatis:
-  mapper-locations: classpath*:org/artc/security/mapper/**/*.xml
+  mapper-locations: classpath*:org/artc/**/mapper/**/*.xml
   configuration:
     map-underscore-to-camel-case: true

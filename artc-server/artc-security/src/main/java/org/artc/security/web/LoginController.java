@@ -4,13 +4,12 @@ import org.apache.shiro.crypto.hash.SimpleHash;
 import org.artc.commom.entity.Result;
 import org.artc.commom.entity.ResultCode;
 import org.artc.commom.entity.ResultMap;
-import org.artc.security.entity.User;
+import org.artc.core.entity.User;
+import org.artc.core.service.UserService;
 import org.artc.security.jwt.JwtUtil;
-import org.artc.security.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController

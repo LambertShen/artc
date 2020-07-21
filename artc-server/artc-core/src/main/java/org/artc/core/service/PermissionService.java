@@ -1,7 +1,7 @@
-package org.artc.security.service;
+package org.artc.core.service;
 
-import org.artc.security.entity.Permission;
-import org.artc.security.mapper.PermissionMapper;
+import org.artc.core.entity.Permission;
+import org.artc.core.mapper.PermissionMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

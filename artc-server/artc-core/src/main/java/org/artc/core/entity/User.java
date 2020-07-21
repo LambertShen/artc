@@ -1,4 +1,4 @@
-package org.artc.security.entity;
+package org.artc.core.entity;
 
 import org.artc.commom.entity.BaseEntity;
 

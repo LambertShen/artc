@@ -1,7 +1,7 @@
-package org.artc.security.mapper;
+package org.artc.core.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.artc.security.entity.Permission;
+import org.artc.core.entity.Permission;
 import org.springframework.stereotype.Repository;
 
 import java.util.Set;

@@ -12,6 +12,7 @@
         <module>artc-security</module>
         <module>artc-commom</module>
         <module>artc-web</module>
+        <module>artc-core</module>
     </modules>
 
     <properties>

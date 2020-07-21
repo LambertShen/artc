@@ -1,7 +1,7 @@
-package org.artc.security.service;
+package org.artc.core.service;
 
-import org.artc.security.entity.Role;
-import org.artc.security.mapper.RoleMapper;
+import org.artc.core.entity.Role;
+import org.artc.core.mapper.RoleMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
