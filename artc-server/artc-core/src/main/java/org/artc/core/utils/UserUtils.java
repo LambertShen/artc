@@ -6,11 +6,19 @@ import org.artc.core.entity.User;
 public class UserUtils {
 
     public static User getCurrentUser() {
-        return (User)SecurityUtils.getSubject().getPrincipal();
+        try {
+            return (User) SecurityUtils.getSubject().getPrincipal();
+        } catch (Exception e) {
+            return new User();
+        }
     }
 
     public static String getCurrentUserId() {
-        User user = (User)SecurityUtils.getSubject().getPrincipal();
-        return user.getId();
+        try {
+            User user = (User) SecurityUtils.getSubject().getPrincipal();
+            return user.getId();
+        } catch (Exception e) {
+            return "system";
+        }
     }
 }
