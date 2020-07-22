@@ -2,7 +2,6 @@ package org.artc.core.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.artc.core.entity.Menu;
-import org.artc.core.entity.User;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
