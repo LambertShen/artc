@@ -6,4 +6,5 @@ export const login = loginInfo => {
         type: Constants.LOGIN,
         data: loginInfo
     }
+
 }

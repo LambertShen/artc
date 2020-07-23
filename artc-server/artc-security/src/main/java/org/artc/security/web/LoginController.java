@@ -32,11 +32,6 @@ public class LoginController {
             return new Result(ResultCode.USER_PASSWORD_ERROR);
         }
         String token = JwtUtil.sign(loginUser.getLoginName(), loginUser.getPassword());
-        return new Result(ResultCode.SUCCESS,
-                ResultMap.create()
-                        .put("token", token)
-                        .put("user", user)
-                        .build()
-        );
+        return new Result(ResultCode.SUCCESS, token);
     }
 }

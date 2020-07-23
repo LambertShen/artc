@@ -25,7 +25,7 @@ class Login extends React.Component {
     static getDerivedStateFromProps(props, state) {
         const {loginInfo} = props;
         if (loginInfo.success) {
-            localStorage.setItem("token", loginInfo.data.token);
+            localStorage.setItem("token", loginInfo.data);
             props.history.push("/");
         }
         return null;
@@ -98,4 +98,4 @@ function loginDispatch(username, password, dispatch) {
     })
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Login));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Login));
