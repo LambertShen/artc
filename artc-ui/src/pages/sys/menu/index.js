@@ -2,7 +2,15 @@ import React from 'react';
 import './index.less';
 import {connect} from "react-redux";
 import {withRouter} from "react-router-dom";
-import { Table, Switch, Space } from 'antd';
+import {Table, Card, Button, Tooltip} from 'antd';
+import {
+    PlusOutlined,
+    LineOutlined,
+    EditOutlined,
+    FullscreenOutlined,
+    ReloadOutlined,
+    SettingOutlined
+} from '@ant-design/icons'
 
 class Menu extends React.Component {
 
@@ -94,13 +102,35 @@ class Menu extends React.Component {
     render() {
         return (
             <>
-                <Space align="center" style={{ marginBottom: 16 }}>
-                </Space>
-                <Table
-                    columns={this.columns}
-                    dataSource={this.data}
-                    pagination={{hideOnSinglePage: true}}
-                />
+                <Card bodyStyle={{padding: 0}}>
+                    <div className="table-toolbar">
+                        <div className="table-toolbar-title">菜单管理</div>
+                        <div className="table-toolbar-option">
+                            <div className="table-toolbar-option-button-group">
+                                <Button icon={<PlusOutlined/>} type="primary">新增</Button>
+                                <Button icon={<EditOutlined/>} type="primary"
+                                        style={{backgroundColor: '#52c41a', borderColor: '#52c41a'}}>编辑</Button>
+                                <Button icon={<LineOutlined/>} type="primary" danger>删除</Button>
+                            </div>
+                            <div className="table-toolbar-option-default">
+                                <Tooltip placement="top" title="全屏">
+                                    <FullscreenOutlined/>
+                                </Tooltip>
+                                <Tooltip placement="top" title="刷新">
+                                    <ReloadOutlined/>
+                                </Tooltip>
+                                <Tooltip placement="top" title="列设置">
+                                    <SettingOutlined/>
+                                </Tooltip>
+                            </div>
+                        </div>
+                    </div>
+                    <Table
+                        columns={this.columns}
+                        dataSource={this.data}
+                        pagination={{hideOnSinglePage: true}}
+                    />
+                </Card>
             </>
         );
     }
