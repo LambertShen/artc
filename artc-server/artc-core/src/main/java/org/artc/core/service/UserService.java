@@ -28,8 +28,7 @@ public class UserService {
     }
 
     public void insert(User user) {
-        String id = String.valueOf(snowFlake.nextId());
-        user.setId(id);
+        user.setId(snowFlake.nextId());
         user.setCreated(LocalDateTime.now());
         user.setCreator(UserUtils.getCurrentUserId());
         String salt = UUID.randomUUID().toString().replaceAll("-","");

@@ -7,6 +7,7 @@ import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
+import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
@@ -18,6 +19,7 @@ import org.artc.security.jwt.JwtUtil;
 import org.artc.core.service.PermissionService;
 import org.artc.core.service.RoleService;
 import org.artc.core.service.UserService;
+import org.owasp.encoder.Encode;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Set;
@@ -72,7 +74,8 @@ public class ArtCRealm extends AuthorizingRealm {
 
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
-        String token = authenticationToken.getCredentials().toString();
+//        JwtToken token = (JwtToken) authenticationToken;
+        String token = (String)authenticationToken.getCredentials();
         String loginName = JwtUtil.getLoginName(token);
         if (StringUtils.isEmpty(loginName)) {
             throw new AuthenticationException("token 非法无效！");
@@ -81,7 +84,7 @@ public class ArtCRealm extends AuthorizingRealm {
         if(user == null) {
             throw new AuthenticationException("用户不存在！");
         }
-        if(user.getState() == 0) {
+        if(user.getState() == 1) {
             throw new AuthenticationException("账号已被禁用，请联系管理员！");
         }
         return new SimpleAuthenticationInfo(user, token, ByteSource.Util.bytes(user.getSalt()), getName());

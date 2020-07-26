@@ -57,7 +57,7 @@ public class SnowFlake {
     /**
      * 产生下一个ID
      */
-    public synchronized long nextId() {
+    public synchronized String nextId() {
         long currentStamp = getNewStamp();
         if (currentStamp < lastStamp) {
             throw new RuntimeException("Clock moved backwards.  Refusing to generate id");
@@ -77,10 +77,11 @@ public class SnowFlake {
 
         lastStamp = currentStamp;
 
-        return (currentStamp - START_STAMP) << TIMESTAMP_LEFT //时间戳部分
+        long id = (currentStamp - START_STAMP) << TIMESTAMP_LEFT //时间戳部分
                 | dataCenterId << DATA_CENTER_LEFT       //数据中心部分
                 | machineId << MACHINE_LEFT             //机器标识部分
-                | sequence;                             //序列号部分
+                | sequence;
+        return String.valueOf(id);
     }
 
     private long getNextMill() {

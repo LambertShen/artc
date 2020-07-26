@@ -18,25 +18,26 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
 
     @Override
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
-        if (!isLoginAttempt(request, response)) {
+        if (isLoginAttempt(request, response)) {
             return true;
         }
         try {
             executeLogin(request, response);
             return true;
         } catch (Exception e) {
-            throw new AuthenticationException("Token失效, 请重新登陆!");
+            e.printStackTrace();
+            return false;
         }
     }
 
     @Override
     protected boolean isLoginAttempt(ServletRequest request, ServletResponse response) {
         HttpServletRequest req = (HttpServletRequest) request;
-        if (antPathMatcher.match("/security/login", req.getRequestURI())) {
+        if (antPathMatcher.match("/login", req.getRequestURI())) {
             return true;
         }
         String token = req.getHeader(Constants.ACCESS_TOKEN);
-        return token != null;
+        return token == null;
     }
 
     @Override

@@ -38,12 +38,13 @@ public class PermissionService {
         permissionMapper.update(permission);
     }
 
-    public void insert(Permission permission) {
-        String id = String.valueOf(snowFlake.nextId());
+    public String insert(Permission permission) {
+        String id = snowFlake.nextId();
         permission.setId(id);
         permission.setCreated(LocalDateTime.now());
         permission.setCreator(UserUtils.getCurrentUserId());
         permissionMapper.insert(permission);
+        return id;
     }
 
     public void delete(String id) {

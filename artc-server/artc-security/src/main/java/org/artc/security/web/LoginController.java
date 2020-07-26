@@ -31,7 +31,7 @@ public class LoginController {
         if (!simpleHash.toHex().equals(user.getPassword())) {
             return new Result(ResultCode.USER_PASSWORD_ERROR);
         }
-        String token = JwtUtil.sign(loginUser.getLoginName(), loginUser.getPassword());
+        String token = JwtUtil.sign(loginUser.getLoginName(), user.getPassword());
         return new Result(ResultCode.SUCCESS, token);
     }
 }

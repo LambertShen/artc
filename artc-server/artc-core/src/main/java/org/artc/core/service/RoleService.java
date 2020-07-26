@@ -33,8 +33,7 @@ public class RoleService {
     }
 
     public void insert(Role role) {
-        String id = String.valueOf(snowFlake.nextId());
-        role.setId(id);
+        role.setId(snowFlake.nextId());
         role.setCreated(LocalDateTime.now());
         role.setCreator(UserUtils.getCurrentUserId());
         roleMapper.insert(role);

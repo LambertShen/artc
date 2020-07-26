@@ -1,5 +1,6 @@
 package org.artc.core.service;
 
+import org.artc.commom.utils.SnowFlake;
 import org.artc.core.entity.Menu;
 import org.artc.core.entity.User;
 import org.artc.core.mapper.MenuMapper;
@@ -7,6 +8,7 @@ import org.artc.core.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -14,6 +16,12 @@ public class MenuService {
 
     @Autowired
     private MenuMapper menuMapper;
+
+    @Autowired
+    private PermissionService permissionService;
+
+    @Autowired
+    private SnowFlake snowFlake;
 
     public List<Menu> findAll() {
         User user = UserUtils.getCurrentUser();
@@ -28,6 +36,11 @@ public class MenuService {
     }
 
     public void insert(Menu menu) {
+        String permissionId = permissionService.insert(menu.getPermission());
+        menu.getPermission().setId(permissionId);
+        menu.setCreated(LocalDateTime.now());
+        menu.setCreator(UserUtils.getCurrentUserId());
+        menu.setId(snowFlake.nextId());
         menuMapper.insert(menu);
     }
 

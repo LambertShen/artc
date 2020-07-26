@@ -8,6 +8,8 @@ public class Menu extends BaseEntity {
     private String url;
     private String parentId;
     private Integer sort;
+    private Integer type;
+    private Permission permission;
 
     public String getName() {
         return name;
@@ -39,5 +41,21 @@ public class Menu extends BaseEntity {
 
     public void setSort(Integer sort) {
         this.sort = sort;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
+    }
+
+    public Permission getPermission() {
+        return permission;
+    }
+
+    public void setPermission(Permission permission) {
+        this.permission = permission;
     }
 }
