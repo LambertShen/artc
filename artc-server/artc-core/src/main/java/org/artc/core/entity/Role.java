@@ -2,13 +2,13 @@ package org.artc.core.entity;
 
 import org.artc.commom.entity.BaseEntity;
 
-import java.util.Set;
+import java.util.List;
 
 public class Role extends BaseEntity {
 
     private String code;
     private String name;
-    private Set<Permission> permissions;
+    private List<Menu> menus;
 
     public String getCode() {
         return code;
@@ -26,11 +26,11 @@ public class Role extends BaseEntity {
         this.name = name;
     }
 
-    public Set<Permission> getPermissions() {
-        return permissions;
+    public List<Menu> getMenus() {
+        return menus;
     }
 
-    public void setPermissions(Set<Permission> permissions) {
-        this.permissions = permissions;
+    public void setMenus(List<Menu> menus) {
+        this.menus = menus;
     }
 }

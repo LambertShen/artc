@@ -5,18 +5,21 @@
 <mapper namespace="org.artc.core.mapper.MenuMapper">
 
     <sql id="menuColumns">
-            id,
-            name,
-            url,
-            parent_id,
-            sort,
-            created,
-            edited,
-            creator,
-            editor
+            menu.id AS "key",
+            menu.id AS "id",
+            menu.name AS "name",
+            menu.url AS "url",
+            menu.parent_id AS "parentId",
+            menu.sort AS "sort",
+            menu.type AS "type",
+            menu.permission AS "permission",
+            menu.created AS "created",
+            menu.edited AS "edited",
+            menu.creator AS "creator",
+            menu.editor AS "editor"
     </sql>
 
-    <select id="findMenusByUserId" resultType="org.artc.core.entity.Menu" parameterType="org.artc.core.entity.User">
+    <select id="findByUserId" resultType="org.artc.core.entity.Menu" parameterType="org.artc.core.entity.User">
         SELECT
             menu.id AS id,
             menu.name AS name,
@@ -51,18 +54,50 @@
         SELECT
             <include refid="menuColumns"/>
         FROM
-            sys_menu
+            sys_menu AS menu
         WHERE
-            deleted = 0
+            menu.deleted = 0
+        ORDER BY
+            menu.sort
     </select>
 
     <select id="findById" resultType="org.artc.core.entity.Menu">
         SELECT
             <include refid="menuColumns"/>
         FROM
+            sys_menu AS menu
+        WHERE
+            menu.id = #{id}
+    </select>
+
+    <select id="findByRoleId" resultType="org.artc.core.entity.Menu">
+        SELECT
+            <include refid="menuColumns"/>
+        FROM
+            sys_menu AS menu
+        LEFT JOIN
+            sys_role_menu AS role_menu
+        ON
+            menu.id = role_menu.menu_id
+        LEFT JOIN
+            sys_role AS role
+        ON
+            role_menu.role_id = role.id
+        WHERE
+            role.id = #{roleId}
+        AND
+            menu.deleted = 0
+    </select>
+
+    <select id="findMaxSortByParentId" resultType="java.lang.Integer">
+        SELECT
+            IFNULL(MAX(sort), -1)
+        FROM
             sys_menu
         WHERE
-            id = #{id}
+            parent_id = #{parentId}
+        AND
+            deleted = 0
     </select>
 
     <insert id="insert">
@@ -73,6 +108,8 @@
             url,
             parent_id,
             sort,
+            permission,
+            type,
             created,
             creator
         )
@@ -83,6 +120,8 @@
             #{url},
             #{parentId},
             #{sort},
+            #{permission},
+            #{type},
             #{created},
             #{creator}
         )
@@ -91,10 +130,11 @@
     <update id="update">
         UPDATE sys_menu
         <set>
-            <if test="name != null">name,=#{name},</if>
-            <if test="url != null">url,=#{url},</if>
-            <if test="parentId != null">parent_id,=#{parentId},</if>
-            <if test="sort != null">sort,=#{sort},</if>
+            <if test="name != null">name=#{name},</if>
+            <if test="url != null">url=#{url},</if>
+            <if test="parentId != null">parent_id=#{parentId},</if>
+            <if test="sort != null">sort=#{sort},</if>
+            <if test="permission != null">permission=#{permission},</if>
             <if test="edited != null">edited=#{edited}</if>
             <if test="editor != null">editor=#{editor}</if>
         </set>
@@ -110,4 +150,6 @@
         WHERE
             id = #{id}
     </update>
+
+
 </mapper>

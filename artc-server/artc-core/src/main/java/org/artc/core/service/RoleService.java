@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class RoleService {
@@ -20,8 +19,8 @@ public class RoleService {
     @Autowired
     private SnowFlake snowFlake;
 
-    public Set<Role> findRoleSetByUserId(String userId) {
-        return roleMapper.findRoleSetByUserId(userId);
+    public List<Role> findByUserId(String userId) {
+        return roleMapper.findByUserId(userId);
     }
 
     public Role findById(String id) {
@@ -45,13 +44,12 @@ public class RoleService {
         roleMapper.update(role);
     }
 
-
     public void delete(String id) {
         roleMapper.delete(id);
     }
 
-    public void bindPermission(Role role) {
-        roleMapper.unbindPermission(role);
-        roleMapper.bindPermission(role);
+    public void bindMenu(Role role) {
+        roleMapper.unbindMenu(role);
+        roleMapper.bindMenu(role);
     }
 }

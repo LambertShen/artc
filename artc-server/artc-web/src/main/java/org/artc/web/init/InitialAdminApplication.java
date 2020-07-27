@@ -29,7 +29,7 @@ public class InitialAdminApplication implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        if (userService.findUserByLoginName(LOGIN_NAME) != null) return;
+        if (userService.findByLoginName(LOGIN_NAME) != null) return;
         User user = new User();
         user.setLoginName(LOGIN_NAME);
         user.setPassword(PASSWORD);

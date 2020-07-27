@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
 import axios from 'axios';
-import {Modal, Form as AntForm, Input, Radio, Button} from "antd";
+import {Modal, Form as AntForm, Input, Radio, Button, TreeSelect} from "antd";
 import './index.less';
 
 const Form = (props) => {
 
-    const {title, visible, handleCloseForm, handlerSubmitForm} = props;
+    const {title, visible, treeSelect, handleCloseForm, handlerSubmitForm} = props;
 
     const [confirmLoading, setConfirmLoading] = useState(false);
 
@@ -28,14 +28,12 @@ const Form = (props) => {
                 name: values.name,
                 url: values.url,
                 type: values.type,
-                permission: {
-                    code: values.permission_code,
-                    name: values.permission_code
-                }
+                parentId: values.parentId ? values.parentId : "0",
+                permission: values.permission
             }
         ).then((response) => {
-            console.log(response)
-            handlerSubmitForm()
+            handlerSubmitForm();
+            setConfirmLoading(false);
         })
     }
 
@@ -59,9 +57,17 @@ const Form = (props) => {
                 >
                     <AntForm.Item
                         label="上级菜单"
-                        name="parent_id"
+                        name="parentId"
                     >
-                        <Input/>
+                        <TreeSelect
+                            style={{ width: '100%' }}
+                            // value={this.state.value}
+                            dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+                            treeData={treeSelect}
+                            placeholder="Please select"
+                            treeDefaultExpandAll
+                            // onChange={this.onChange}
+                        />
                     </AntForm.Item>
                     <AntForm.Item
                         label="名称"
@@ -77,7 +83,7 @@ const Form = (props) => {
                     </AntForm.Item>
                     <AntForm.Item
                         label="权限标识"
-                        name="permission_code"
+                        name="permission"
                     >
                         <Input/>
                     </AntForm.Item>

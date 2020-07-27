@@ -21,7 +21,7 @@
             admin
     </sql>
 
-    <select id="findUserByLoginName" resultType="org.artc.core.entity.User">
+    <select id="findByLoginName" resultType="org.artc.core.entity.User">
         SELECT
             <include refid="userColumns"/>
         FROM

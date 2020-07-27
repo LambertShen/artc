@@ -7,21 +7,20 @@ import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
-import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
-import org.artc.core.entity.Permission;
+import org.artc.core.entity.Menu;
 import org.artc.core.entity.Role;
 import org.artc.core.entity.User;
+import org.artc.core.service.MenuService;
 import org.artc.security.jwt.JwtToken;
 import org.artc.security.jwt.JwtUtil;
-import org.artc.core.service.PermissionService;
 import org.artc.core.service.RoleService;
 import org.artc.core.service.UserService;
-import org.owasp.encoder.Encode;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -34,7 +33,7 @@ public class ArtCRealm extends AuthorizingRealm {
     private RoleService roleService;
 
     @Autowired
-    private PermissionService permissionService;
+    private MenuService menuService;
 
     @Override
     public boolean supports(AuthenticationToken token) {
@@ -60,27 +59,26 @@ public class ArtCRealm extends AuthorizingRealm {
         if (userPrincipal == null) {
             return null;
         }
-        User user = userService.findUserByLoginName(userPrincipal.getLoginName());
-        Set<Role> roles = roleService.findRoleSetByUserId(user.getId());
-        Set<String> roleCodes = roles.stream().map(Role::getCode).collect(Collectors.toSet());
-        info.setRoles(roleCodes);
+        User user = userService.findByLoginName(userPrincipal.getLoginName());
+        List<Role> roles = roleService.findByUserId(user.getId());
+        List<String> roleCodes = roles.stream().map(Role::getCode).collect(Collectors.toList());
+        info.addRoles(roleCodes);
         for(Role role : roles) {
-            Set<Permission> permissions = permissionService.findPermissionSetByRoleId(role.getId());
-            Set<String> permissionCodes = permissions.stream().map(Permission::getCode).collect(Collectors.toSet());
-            info.setStringPermissions(permissionCodes);
+            List<Menu> menus = menuService.findByRoleId(role.getId());
+            List<String> permissions = menus.stream().map(Menu::getPermission).collect(Collectors.toList());
+            info.addStringPermissions(permissions);
         }
         return info;
     }
 
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
-//        JwtToken token = (JwtToken) authenticationToken;
         String token = (String)authenticationToken.getCredentials();
         String loginName = JwtUtil.getLoginName(token);
         if (StringUtils.isEmpty(loginName)) {
             throw new AuthenticationException("token 非法无效！");
         }
-        User user = userService.findUserByLoginName(loginName);
+        User user = userService.findByLoginName(loginName);
         if(user == null) {
             throw new AuthenticationException("用户不存在！");
         }

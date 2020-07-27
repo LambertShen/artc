@@ -23,8 +23,8 @@ public class UserService {
     @Autowired
     private SnowFlake snowFlake;
 
-    public User findUserByLoginName(String loginName) {
-        return userMapper.findUserByLoginName(loginName);
+    public User findByLoginName(String loginName) {
+        return userMapper.findByLoginName(loginName);
     }
 
     public void insert(User user) {

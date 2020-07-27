@@ -11,7 +11,7 @@ import java.util.Map;
 @Repository
 public interface UserMapper {
 
-    User findUserByLoginName(String loginName);
+    User findByLoginName(String loginName);
 
     void insert(User user);
 

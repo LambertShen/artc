@@ -20,7 +20,7 @@ public class LoginController {
 
     @PostMapping(value = "login")
     public Result login(@RequestBody User loginUser) {
-        User user = userService.findUserByLoginName(loginUser.getLoginName());
+        User user = userService.findByLoginName(loginUser.getLoginName());
         if (user == null) {
             return new Result(ResultCode.USER_NOT_EXIST);
         }

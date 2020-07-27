@@ -11,7 +11,7 @@ import java.util.Set;
 @Repository
 public interface RoleMapper {
 
-    Set<Role> findRoleSetByUserId(String userId);
+    List<Role> findByUserId(String userId);
 
     Role findById(String id);
 
@@ -23,7 +23,7 @@ public interface RoleMapper {
 
     void delete(String id);
 
-    void bindPermission(Role role);
+    void bindMenu(Role role);
 
-    void unbindPermission(Role role);
+    void unbindMenu(Role role);
 }

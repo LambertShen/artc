@@ -2,7 +2,7 @@ package org.artc.core.entity;
 
 import org.artc.commom.entity.BaseEntity;
 
-import java.util.Set;
+import java.util.List;
 
 public class User extends BaseEntity {
 
@@ -19,7 +19,7 @@ public class User extends BaseEntity {
     private String password;
     private Integer state;
     private Integer admin = 1;
-    private Set<Role> roles;
+    private List<Role> roles;
 
     public String getFamilyName() {
         return familyName;
@@ -125,11 +125,11 @@ public class User extends BaseEntity {
         this.admin = admin;
     }
 
-    public Set<Role> getRoles() {
+    public List<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(Set<Role> roles) {
+    public void setRoles(List<Role> roles) {
         this.roles = roles;
     }
 }

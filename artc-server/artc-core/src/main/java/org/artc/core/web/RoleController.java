@@ -46,9 +46,9 @@ public class RoleController {
         return new Result(ResultCode.SUCCESS);
     }
 
-    @PostMapping("/bindPermission")
+    @PostMapping("/bindMenu")
     public Result bindPermission(@RequestBody Role role) {
-        roleService.bindPermission(role);
+        roleService.bindMenu(role);
         return new Result(ResultCode.SUCCESS);
     }
 }

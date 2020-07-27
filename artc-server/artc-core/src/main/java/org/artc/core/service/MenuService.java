@@ -9,7 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class MenuService {
@@ -18,29 +21,47 @@ public class MenuService {
     private MenuMapper menuMapper;
 
     @Autowired
-    private PermissionService permissionService;
-
-    @Autowired
     private SnowFlake snowFlake;
 
     public List<Menu> findAll() {
+        List<Menu> menus;
         User user = UserUtils.getCurrentUser();
-        if(user.getAdmin() == 0) {
-            return menuMapper.findAll();
+        if (user.getAdmin() == 0) {
+            menus = menuMapper.findAll();
+        } else {
+            menus = menuMapper.findByUserId(user.getId());
         }
-        return menuMapper.findMenusByUserId(user.getId());
+        return dfs(menus, "0");
+    }
+
+    public List<Menu> dfs(List<Menu> menus, String parentId) {
+        List<Menu> result = new ArrayList<>();
+        List<Menu> topMenus = menus.stream().filter(menu -> menu.getParentId().equals(parentId)).collect(Collectors.toList());
+        if(topMenus.size() == 0) return null;
+        for(Menu menu : topMenus) {
+            List<Menu> childrenMenus = dfs(menus, menu.getId());
+            if(childrenMenus != null) {
+                menu.setChildren(childrenMenus);
+            }
+            result.add(menu);
+        }
+        return result;
     }
 
     public Menu findById(String id) {
         return menuMapper.findById(id);
     }
 
+    public List<Menu> findByRoleId(String roleId) {
+        return menuMapper.findByRoleId(roleId);
+    }
+
     public void insert(Menu menu) {
-        String permissionId = permissionService.insert(menu.getPermission());
-        menu.getPermission().setId(permissionId);
         menu.setCreated(LocalDateTime.now());
         menu.setCreator(UserUtils.getCurrentUserId());
         menu.setId(snowFlake.nextId());
+        int sort = menuMapper.findMaxSortByParentId(menu.getParentId());
+        menu.setSort(sort + 1);
         menuMapper.insert(menu);
     }
 

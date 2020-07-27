@@ -2,14 +2,26 @@ package org.artc.core.entity;
 
 import org.artc.commom.entity.BaseEntity;
 
+import java.util.List;
+
 public class Menu extends BaseEntity {
 
+    private String key;
     private String name;
     private String url;
     private String parentId;
     private Integer sort;
     private Integer type;
-    private Permission permission;
+    private String permission;
+    private List<Menu> children;
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
 
     public String getName() {
         return name;
@@ -51,11 +63,19 @@ public class Menu extends BaseEntity {
         this.type = type;
     }
 
-    public Permission getPermission() {
+    public String getPermission() {
         return permission;
     }
 
-    public void setPermission(Permission permission) {
+    public void setPermission(String permission) {
         this.permission = permission;
+    }
+
+    public List<Menu> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<Menu> children) {
+        this.children = children;
     }
 }

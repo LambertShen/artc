@@ -10,9 +10,11 @@ import java.util.List;
 @Repository
 public interface MenuMapper {
 
-    List<Menu> findMenusByUserId(String userId);
+    List<Menu> findByUserId(String userId);
 
     List<Menu> findAll();
+
+    List<Menu> findByRoleId(String roleId);
 
     Menu findById(String id);
 
@@ -21,4 +23,6 @@ public interface MenuMapper {
     void update(Menu menu);
 
     void delete(String id);
+
+    Integer findMaxSortByParentId(String parentId);
 }
