@@ -34,6 +34,7 @@ const Form = (props) => {
         ).then((response) => {
             handlerSubmitForm();
             setConfirmLoading(false);
+            form.resetFields(['name', 'url', 'type', 'parentId', 'permission']);
         })
     }
 
@@ -61,12 +62,10 @@ const Form = (props) => {
                     >
                         <TreeSelect
                             style={{ width: '100%' }}
-                            // value={this.state.value}
                             dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
                             treeData={treeSelect}
                             placeholder="Please select"
                             treeDefaultExpandAll
-                            // onChange={this.onChange}
                         />
                     </AntForm.Item>
                     <AntForm.Item

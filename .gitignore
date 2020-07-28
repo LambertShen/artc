@@ -21,9 +21,13 @@
 
 /artc-server/.idea
 /artc-server/.mvn
+/artc-server/*/target
 /artc-ui/.idea
 /artc-ui/node_modules
-/artc-server/*/target
+/artc-ui-react/.idea
+/artc-ui-react/node_modules
+/artc-ui-vue/.idea
+/artc-ui-vue/node_modules
 *.iml
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
