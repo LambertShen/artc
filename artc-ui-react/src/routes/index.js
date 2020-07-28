@@ -5,6 +5,7 @@ import Container from "../container";
 import Login from "../pages/login";
 import NotFound from "../pages/not-found";
 import {useHistory} from "react-router-dom";
+import {Spin} from 'antd';
 
 const Routes = () => {
 
@@ -47,7 +48,9 @@ const SafeRoute = ({component}) => {
     const LoadableComponent = Loadable({
         loader: () => import(`../pages/${component}`),
         loading: () => (
-            <span>loading...</span>
+            <div style={{display: "flex", height: '100%', alignItems: "center", textAlign: "center"}}>
+                <Spin style={{margin: 'auto'}} size="large" tip="加载中..."/>
+            </div>
         )
     })
 

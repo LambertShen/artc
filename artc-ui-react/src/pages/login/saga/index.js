@@ -1,6 +1,5 @@
 import Constants from "../constants";
 import {take, call, put} from 'redux-saga/effects'
-import Api from "../api";
 import axios from 'axios';
 
 function* loginAuthorize(username, password) {
@@ -17,7 +16,7 @@ function* login() {
     while (true) {
         const {username, password} = yield take(Constants.LOGIN_REQUEST);
         const token = yield call(loginAuthorize, username, password);
-        if(token) {
+        if (token) {
             localStorage.setItem("token", token);
         }
     }

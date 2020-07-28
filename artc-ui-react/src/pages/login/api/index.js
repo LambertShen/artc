@@ -4,7 +4,7 @@ function login(username, password) {
     axios.post(
         "login",
         {
-            loginName: 'username',
+            loginName: username,
             password: password
         }
     )
