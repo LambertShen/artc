@@ -9,7 +9,7 @@ export const loginInfo = (state = {}, action) => {
         case Constants.LOGIN_FAIL:
             return {
                 success: false,
-                info: action
+                info: action.error
             }
         default:
             return state;

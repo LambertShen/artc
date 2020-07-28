@@ -3,8 +3,9 @@ import {useHistory} from "react-router-dom";
 import './index.less';
 import {login_action} from './action';
 import {connect} from "react-redux";
+import {message} from "antd";
 
-const Login = ({login, success, error}) => {
+const Login = ({login, success, info}) => {
 
     const history = useHistory();
 
@@ -14,6 +15,9 @@ const Login = ({login, success, error}) => {
         if(success) {
             let token = localStorage.getItem("token");
             if (token) history.push("/");
+        }
+        if(success === false) {
+           message.error(info);
         }
     })
 
